@@ -46,12 +46,12 @@ create_banner() {
 update_status() {
     local line=$1
     local column=$2
-    local status=$3
+    local status_string=$3
 
     # Move cursor to the correct position and clear the line
     tput cup $((line+8)) $column
     tput el
-    echo $status
+    echo $status_string
 }
 
 install_status() {
@@ -79,11 +79,11 @@ non_verbose_output() {
     
     for i in ${(k)requirements[@]}; do
         name=${healthCheckResults["${requirements[$i]},name"]}
-        status_boolean=$(install_status "${healthCheckResults["${requirements[$i]},installed"]}")
-        clean_string=$(echo -e "$status_boolean" | sed -E 's/\x1B\[[0-9;]*[a-zA-Z]//g')
+        status_string=$(install_status "${healthCheckResults["${requirements[$i]},installed"]}")
+        clean_string=$(echo -e "$status_string" | sed -E 's/\x1B\[[0-9;]*[a-zA-Z]//g')
 
         update_status $i 0 "$name"
-        update_status $i $(($width - ${#clean_string})) "$status_boolean"
+        update_status $i $(($width - ${#clean_string})) "$status_string"
     done
 
     for i in ${(k)requirements[@]}; do
@@ -96,11 +96,11 @@ non_verbose_output() {
             sleep 0.1
         done
 
-        status_boolean=$(install_status "${healthCheckResults["${requirements[$i]},installed"]}")
-        clean_string=$(echo -e "$status_boolean" | sed -E 's/\x1B\[[0-9;]*[a-zA-Z]//g')
+        status_string=$(install_status "${healthCheckResults["${requirements[$i]},installed"]}")
+        clean_string=$(echo -e "$status_string" | sed -E 's/\x1B\[[0-9;]*[a-zA-Z]//g')
 
         update_status $i $(($width - 14)) ""
-        update_status $i $(($width - ${#clean_string})) "$status_boolean"
+        update_status $i $(($width - ${#clean_string})) "$status_string"
     done
 
 }

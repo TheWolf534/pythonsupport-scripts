@@ -12,9 +12,12 @@ check_vsCode() {
 
     save_healthCheckResults
 
-    for index in "${(k)code_extensions[@]}"; do
-        healthCheckResults[${code_extensions[$index]},version]=$(code --list-extensions --show-versions 2>/dev/null | grep "${code_extensions[$index]}" | cut -d "@" -f 2)
-        healthCheckResults[${code_extensions[$index]},installed]="$([ ${#healthCheckResults[${code_extensions[$index]},version]} -eq 0 ] && echo false || echo true)"
+    for extension in "${(k)code_extensions[@]}"; do
+        version=$(code --list-extensions --show-versions 2>/dev/null | grep "${extension}" | cut -d "@" -f 2)
+        installed="$([ -z "$version" ] && echo false || echo true)"
+
+        healthCheckResults[${extension},version]=$version
+        healthCheckResults[${extension},installed]=$installed
         save_healthCheckResults
     done
 
