@@ -2,22 +2,22 @@
 
 brew_path=$(which brew 2>/dev/null) 
 user_python_dir="usr/local/bin"
-conda_dir=("$HOME/miniconda3/" "$HOME/anaconda3/" "/opt/miniconda3/" "/opt/anaconda3/")
+conda_directories=("$HOME/miniconda3/" "$HOME/anaconda3/" "/opt/miniconda3/" "/opt/anaconda3/")
 brew_conda_path="$brew_path/miniconda/"
 
 check_python() {
     user_python_path=$(ls $python_path 2>/dev/null | grep "python")
 
     conda_path=()
-    for path in "${conda_dir[@]}"; do
-        if [ -d $path ]; then
-            conda_python+=("$path")
+    for conda_dir in "${conda_directories[@]}"; do
+        if [ -d $conda_dir ]; then
+            conda_path+=("$conda_dir")
         fi
     done
 
 
     if [ -d "$brew_conda" ]; then
-        conda_python+=("$brew_conda")
+        conda_path+=("$brew_conda")
     fi
 
     default_conda=$(which conda 2>/dev/null)
@@ -41,7 +41,7 @@ check_python() {
 
     healthCheckResults["conda,installed"]="$([ ${#conda_python[@]} -eq 0 ] && echo false || echo true)"
     healthCheckResults["conda,version"]=$default_conda_version
-    healthCheckResults["conda,path"]="$default_conda"
+    healthCheckResults["conda,path"]="${conda_path[@]}"
     healthCheckResults["conda,python_version"]="$default_conda_python_version"
     healthCheckResults["conda,python_path"]="$default_conda_python"
 
