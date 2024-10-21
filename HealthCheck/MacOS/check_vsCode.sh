@@ -14,7 +14,7 @@ check_vsCode() {
 
     for index in "${(k)code_extensions[@]}"; do
         healthCheckResults[${code_extensions[$index]},version]=$(code --list-extensions --show-versions 2>/dev/null | grep "${code_extensions[$index]}" | cut -d "@" -f 2)
-        healthCheckResults[${code_extensions[$index]},installed]="$([ ${#vscode_check[code,extension,${code_extensions[$index]},version]} -eq 0 ] && echo false || echo true)"
+        healthCheckResults[${code_extensions[$index]},installed]="$([ ${#healthCheckResults[${code_extensions[$index]},version]} -eq 0 ] && echo false || echo true)"
         save_healthCheckResults
     done
 
