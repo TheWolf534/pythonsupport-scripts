@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env zsh
 
 brew_path=$(which brew 2>/dev/null) 
 user_python_dir="usr/local/bin"

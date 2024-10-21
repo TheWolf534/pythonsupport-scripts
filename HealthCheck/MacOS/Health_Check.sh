@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env zsh
 
 source <(curl -s https://raw.githubusercontent.com/TheWolf534/pythonsupport-scripts/refs/heads/main/HealthCheck/MacOS/output.sh)
 source <(curl -s https://raw.githubusercontent.com/TheWolf534/pythonsupport-scripts/refs/heads/main/HealthCheck/MacOS/check_python.sh)
@@ -22,7 +22,7 @@ cleanup() {
 }
 
 save_healthCheckResults() {
-    declare -p healthCheckResults > /tmp/healthCheckResults
+    typeset -p healthCheckResults > /tmp/healthCheckResults
 }
 
 export -f save_healthCheckResults
@@ -33,7 +33,7 @@ trap cleanup SIGINT
 main() {
     create_banner
 
-    declare -A healthCheckResults
+    typeset -A healthCheckResults
     healthCheckResults=(
         ["python3,name"]="Python"
         ["conda,name"]="Conda"

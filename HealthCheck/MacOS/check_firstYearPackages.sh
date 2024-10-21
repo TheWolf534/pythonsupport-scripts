@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env zsh
 
 eval "$(conda shell.bash hook)" 2>/dev/null
 conda_eviroment="base"  
@@ -10,8 +10,6 @@ python_path=$(which python3 2>/dev/null)
 
 
 python_packages=("numpy" "dtumathtools" "pandas" "scipy" "statsmodels" "uncertainties")
-
-declare -A firstYearPackages_check
 
 check_package_installed() {
     local package=$1

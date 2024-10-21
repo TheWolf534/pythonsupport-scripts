@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env zsh
 
 program_requirements=(
     "python3"
@@ -115,7 +115,7 @@ verbose_output() {
     echo "Health Check Detailed Summary:"
     printf '%*s\n' "$display_width" '' | tr ' ' '='
 
-    declare -A health_check_results
+    typeset -A health_check_results
     health_check_results = $1
 
     # First year programs

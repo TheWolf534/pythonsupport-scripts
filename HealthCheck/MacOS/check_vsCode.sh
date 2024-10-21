@@ -1,9 +1,7 @@
-#!/bin/bash
+#!/usr/bin/env zsh
 
 code_path=$(which code 2>/dev/null)
 code_extensions=("ms-python.python" "ms-toolsai.jupyter")
-
-declare -A vscode_check
 
 check_vsCode() {
     source /tmp/healthCheckResults
