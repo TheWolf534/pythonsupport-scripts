@@ -1,14 +1,10 @@
 #!/bin/bash
 
-# Template for how to source the scripts from github
-#source <(curl -s https://raw.githubusercontent.com/user/repo/branch/path/to/script.sh)
+source <(curl -s https://raw.githubusercontent.com/TheWolf534/pythonsupport-scripts/refs/heads/main/HealthCheck/MacOS/output.sh)
+source <(curl -s https://raw.githubusercontent.com/TheWolf534/pythonsupport-scripts/refs/heads/main/HealthCheck/MacOS/check_python.sh)
+source <(curl -s https://raw.githubusercontent.com/TheWolf534/pythonsupport-scripts/refs/heads/main/HealthCheck/MacOS/check_vsCode.sh)
+source <(curl -s https://raw.githubusercontent.com/TheWolf534/pythonsupport-scripts/refs/heads/main/HealthCheck/MacOS/check_firstYearPackages.sh)
 
-
-script_full_path=$(dirname "$0")
-source "$script_full_path/output.sh"
-source "$script_full_path/check_python.sh"
-source "$script_full_path/check_vsCode.sh"
-source "$script_full_path/check_firstYearPackages.sh"
 
 # Function to clean up resources and exit
 cleanup() {
