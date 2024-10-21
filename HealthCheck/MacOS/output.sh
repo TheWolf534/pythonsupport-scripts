@@ -77,7 +77,7 @@ non_verbose_output() {
     tput civis
     requirements=( "${program_requirements[@]}" "${extension_requirements[@]}" "${package_requirements[@]}")
     
-    for i in ${!requirements[@]}; do
+    for i in ${(k)requirements[@]}; do
         name=${healthCheckResults["${requirements[$i]},name"]}
         status=$(install_status "${healthCheckResults["${requirements[$i]},installed"]}")
         clean_string=$(echo -e "$status" | sed -E 's/\x1B\[[0-9;]*[a-zA-Z]//g')
@@ -86,7 +86,7 @@ non_verbose_output() {
         update_status $i $(($width - ${#clean_string})) "$status"
     done
 
-    for i in ${!requirements[@]}; do
+    for i in ${(k)requirements[@]}; do
         while true; do
             source /tmp/healthCheckResults
             if [[ ! -z "${healthCheckResults["${requirements[$i]},installed"]}" ]]; then
