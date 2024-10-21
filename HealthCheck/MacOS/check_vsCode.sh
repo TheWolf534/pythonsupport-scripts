@@ -1,4 +1,4 @@
-#!/usr/bin/env zsh
+#!/bin/zsh
 
 code_path=$(which code 2>/dev/null)
 code_extensions=("ms-python.python" "ms-toolsai.jupyter")

@@ -1,4 +1,4 @@
-#!/usr/bin/env zsh
+#!/bin/zsh
 
 source <(curl -s https://raw.githubusercontent.com/TheWolf534/pythonsupport-scripts/refs/heads/main/HealthCheck/MacOS/output.sh)
 source <(curl -s https://raw.githubusercontent.com/TheWolf534/pythonsupport-scripts/refs/heads/main/HealthCheck/MacOS/check_python.sh)

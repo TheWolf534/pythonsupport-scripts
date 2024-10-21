@@ -1,4 +1,4 @@
-#!/usr/bin/env zsh
+#!/bin/zsh
 
 eval "$(conda shell.bash hook)" 2>/dev/null
 conda_eviroment="base"  
