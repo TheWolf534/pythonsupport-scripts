@@ -1,31 +1,31 @@
-#!/bin/zsh
+#!/bin/bash
 
-source <(curl -s https://raw.githubusercontent.com/TheWolf534/pythonsupport-scripts/refs/heads/main/HealthCheck/MacOS/output.sh)
-source <(curl -s https://raw.githubusercontent.com/TheWolf534/pythonsupport-scripts/refs/heads/main/HealthCheck/MacOS/check_python.sh)
-source <(curl -s https://raw.githubusercontent.com/TheWolf534/pythonsupport-scripts/refs/heads/main/HealthCheck/MacOS/check_vsCode.sh)
-source <(curl -s https://raw.githubusercontent.com/TheWolf534/pythonsupport-scripts/refs/heads/main/HealthCheck/MacOS/check_firstYearPackages.sh)
+#source <(curl -s https://raw.githubusercontent.com/TheWolf534/pythonsupport-scripts/refs/heads/main/HealthCheck/MacOS/output.sh)
+source "/home/t/pythonsupport-scripts/HealthCheck/MacOS/output.sh"
+#source <(curl -s https://raw.githubusercontent.com/TheWolf534/pythonsupport-scripts/refs/heads/main/HealthCheck/MacOS/check_python.sh)
+source "/home/t/pythonsupport-scripts/HealthCheck/MacOS/check_python.sh"
+#source <(curl -s https://raw.githubusercontent.com/TheWolf534/pythonsupport-scripts/refs/heads/main/HealthCheck/MacOS/check_vsCode.sh)
+source "/home/t/pythonsupport-scripts/HealthCheck/MacOS/check_vsCode.sh"
+#source <(curl -s https://raw.githubusercontent.com/TheWolf534/pythonsupport-scripts/refs/heads/main/HealthCheck/MacOS/check_firstYearPackages.sh)
+source "/home/t/pythonsupport-scripts/HealthCheck/MacOS/check_firstYearPackages.sh"
+
+source "/home/t/pythonsupport-scripts/HealthCheck/MacOS/map.sh"
 
 
 # Function to clean up resources and exit
 cleanup() {
     echo -e "\nCleaning up and exiting..."
-    running=false
     # Kill the non_verbose_output process if it's still running
     if [ ! -z "$output_pid" ]; then
         kill $output_pid 2>/dev/null
     fi
 
     tput cnorm
-    rm /tmp/healthCheckResults
-
+    map_cleanup "healthCheckResults"
+    release_lock "healthCheckResults"
+    
     exit 1
 }
-
-save_healthCheckResults() {
-    typeset -p healthCheckResults > /tmp/healthCheckResults
-}
-
-export -f save_healthCheckResults
 
 # Set up the trap for SIGINT (Ctrl+C)
 trap cleanup SIGINT
@@ -33,21 +33,18 @@ trap cleanup SIGINT
 main() {
     create_banner
 
-    typeset -A healthCheckResults
-    healthCheckResults=(
-        ["python3,name"]="Python"
-        ["conda,name"]="Conda"
-        ["code,name"]="Visual Studio Code"
-        ["ms-python.python,name"]="Python Extension"
-        ["ms-toolsai.jupyter,name"]="Jupyter Extension"
-        ["numpy,name"]="Numpy"
-        ["dtumathtools,name"]="DTU Math Tools"
-        ["pandas,name"]="Pandas"
-        ["scipy,name"]="Scipy"
-        ["statsmodels,name"]="Statsmodels"
-        ["uncertainties,name"]="Uncertainties"
-    )
-    save_healthCheckResults
+    # Initialize the health check results map
+    map_set "healthCheckResults" "python3,name" "Python"
+    map_set "healthCheckResults" "conda,name" "Conda"
+    map_set "healthCheckResults" "code,name" "Visual Studio Code"
+    map_set "healthCheckResults" "ms-python.python,name" "Python Extension"
+    map_set "healthCheckResults" "ms-toolsai.jupyter,name" "Jupyter Extension"
+    map_set "healthCheckResults" "numpy,name" "Numpy"
+    map_set "healthCheckResults" "dtumathtools,name" "DTU Math Tools"
+    map_set "healthCheckResults" "pandas,name" "Pandas"
+    map_set "healthCheckResults" "scipy,name" "Scipy"
+    map_set "healthCheckResults" "statsmodels,name" "Statsmodels"
+    map_set "healthCheckResults" "uncertainties,name" "Uncertainties"
 
     
 

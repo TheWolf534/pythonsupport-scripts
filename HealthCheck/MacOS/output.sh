@@ -1,5 +1,4 @@
-#!/bin/zsh
-
+# Requirements arrays remain unchanged
 program_requirements=(
     "python3"
     "conda"
@@ -17,22 +16,18 @@ package_requirements=(
     "statsmodels"
     "uncertainties"
 )
-
 width=60
 
-
-# Create a colorful banner
+# Create a colorful banner - unchanged
 create_banner() {
     clear
     local text="Welcome to the Python Support Health Check"
     local text_length=${#text}
     local padding=$(( ($width - $text_length - 2) / 2 ))
-
     local left_padding=$(printf "%*s" $padding)
     local right_padding=$(printf "%*s" $padding)
     local top_bottom_side=$(printf "%*s" $((padding * 2 + 2 + text_length)) | tr ' ' '*')
     local inside_box_width=$(printf "%*s" $((padding * 2 + text_length)))
-
     echo -e "\e[1;34m"
     echo "$top_bottom_side"
     echo "*$inside_box_width*"
@@ -42,151 +37,66 @@ create_banner() {
     echo -e "\e[0m"
 }
 
-# Function to update the status
+# Update status function - unchanged
+# Update status function - fixed
 update_status() {
-    local line=$1
-    local column=$2
-    local status_string=$3
-
-    # Move cursor to the correct position and clear the line
+    local line=$1    # Removed *asterisks*
+    local column=$2  # Removed *asterisks*
+    local status_string=$3  # Removed *asterisks*
     tput cup $((line+8)) $column
     tput el
-    echo $status_string
+    echo "$status_string"
 }
 
+# Install status function - fixed
 install_status() {
-    install_status=$1
-
+    local install_status=$1  # Removed *asterisks* and added local
     if [ "$install_status" = "true" ]; then
         status_string="INSTALLED"
-        color_code="\e[1;42m"  # White text on green background
+        color_code="\e[1;42m"
     elif [ "$install_status" = "false" ]; then
         status_string="NOT INSTALLED"
-        color_code="\e[1;41m"  # White text on red background
+        color_code="\e[1;41m"
     else
         status_string="STILL CHECKING"
-        color_code="\e[1;43m"  # White text on yellow background
+        color_code="\e[1;43m"
     fi
-
-    reset_color="\e[0m"  # Reset to default color
-
+    reset_color="\e[0m"
     echo -e "$color_code$status_string$reset_color"
 }
 
+# Non-verbose output function remains the same
 non_verbose_output() {
     tput civis
     requirements=( "${program_requirements[@]}" "${extension_requirements[@]}" "${package_requirements[@]}")
     
-    for i in {1..$#requirements}; do
-        name=${healthCheckResults["${requirements[$i]},name"]}
-        status_string=$(install_status "${healthCheckResults["${requirements[$i]},installed"]}")
+    # First loop: Display initial status for all requirements
+    for i in ${!requirements[@]}; do
+        name=$(map_get "healthCheckResults" "${requirements[$i]},name")
+        installed=$(map_get "healthCheckResults" "${requirements[$i]},installed")
+        status_string=$(install_status "${installed:-}")
         clean_string=$(echo -e "$status_string" | sed -E 's/\x1B\[[0-9;]*[a-zA-Z]//g')
-
+        
         update_status $i 0 "$name"
         update_status $i $(($width - ${#clean_string})) "$status_string"
     done
 
-    for i in {1..$#requirements}; do
+    # Second loop: Wait for and update installation status
+    for i in ${!requirements[@]}; do
         while true; do
-            source /tmp/healthCheckResults
-            if [[ ! -z "${healthCheckResults["${requirements[$i]},installed"]}" ]]; then
+            installed=$(map_get "healthCheckResults" "${requirements[$i]},installed")
+            if [[ ! -z "$installed" ]]; then
                 break
             fi
-            # Sleep for a short period to avoid sources being read too quickly
+            # Sleep for a short period to avoid reading too frequently
             sleep 0.1
         done
-
-        status_string=$(install_status "${healthCheckResults["${requirements[$i]},installed"]}")
+        
+        status_string=$(install_status "$installed")
         clean_string=$(echo -e "$status_string" | sed -E 's/\x1B\[[0-9;]*[a-zA-Z]//g')
-
         update_status $i $(($width - 14)) ""
         update_status $i $(($width - ${#clean_string})) "$status_string"
     done
-
+    
+    tput cnorm  # Restore cursor
 }
-
-
-###########################################
-# NEED TO REIMPLEMENT THIS
-###########################################
-
-# Verbose output function
-#verbose_output() {
-#    echo "Health Check Detailed Summary:"
-#    printf '%*s\n' "$display_width" '' | tr ' ' '='
-#
-#    typeset -A health_check_results
-#    health_check_results = $1
-#
-#    # First year programs
-#    for program in "${required_programs[@]}"; do
-#        program_results="${health_check_results[$program,installed]}"
-#        program_name="${health_check_results[$program,name]}"
-#        program_version="${health_check_results[$program,version]}"
-#        program_path="${health_check_results[$program,path]}"
-#
-#        if [ "$program_results" = true ]; then
-#            status="INSTALLED"
-#            color_code="\e[1;42m"  # White text on green background
-#        elif [ "$program_results" = false ]; then
-#            status="NOT INSTALLED"
-#            color_code="\e[1;41m"  # White text on red background
-#        else
-#            status="STILL CHECKING"
-#            color_code="\e[1;43m"  # White text on yellow background
-#        fi
-#
-#        reset_color="\e[0m"  # Reset to default color
-#        echo -e "${program_name}: ${color_code}${status}${reset_color}"
-#        echo "Version: $program_version"
-#        echo "Path: $program_path"
-#    done
-#
-#    # First year extensions
-#    for extension in "ms-python.python" "ms-toolsai.jupyter"; do
-#        extension_results="${health_check_results[code,extensions,$extension,installed]}"
-#        extension_name="${health_check_results[code,extensions,$extension,name]}"
-#        extension_version="${health_check_results[code,extensions,$extension,version]}"
-#
-#        if [ "$extension_results" = true ]; then
-#            status="INSTALLED"
-#            color_code="\e[1;42m"  # White text on green background
-#        elif [ "$extension_results" = false ]; then
-#            status="NOT INSTALLED"
-#            color_code="\e[1;41m"  # White text on red background
-#        else
-#            status="STILL CHECKING"
-#            color_code="\e[1;43m"  # White text on yellow background
-#        fi
-#
-#        reset_color="\e[0m"  # Reset to default color
-#        echo -e "${extension_name}: ${color_code}${status}${reset_color}"
-#        echo "Version: $extension_version"
-#    done
-#
-#    # First year packages
-#    for package in "${required_packages[@]}"; do
-#        package_results="${health_check_results[firstYearPackages,$package,installed]}"
-#        package_name="${health_check_results[firstYearPackages,$package,name]}"
-#        package_version="${health_check_results[firstYearPackages,$package,version]}"
-#        package_path="${health_check_results[firstYearPackages,$package,path]}"
-#        package_source="${health_check_results[firstYearPackages,$package,source]}"
-#
-#        if [ "$package_results" = true ]; then
-#            status="INSTALLED"
-#            color_code="\e[1;42m"  # White text on green background
-#        elif [ "$package_results" = false ]; then
-#            status="NOT INSTALLED"
-#            color_code="\e[1;41m"  # White text on red background
-#        else
-#            status="STILL CHECKING"
-#            color_code="\e[1;43m"  # White text on yellow background
-#        fi
-#
-#        reset_color="\e[0m"  # Reset to default color
-#        echo -e "${package_name}: ${color_code}${status}${reset_color}"
-#        echo "Version: $package_version"
-#        echo "Source: $package_source"
-#        echo "Path: $package_path"
-#    done
-#}
