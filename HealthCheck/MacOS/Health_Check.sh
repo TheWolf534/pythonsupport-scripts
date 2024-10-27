@@ -1,15 +1,20 @@
 #!/bin/bash
 
-#source <(curl -s https://raw.githubusercontent.com/TheWolf534/pythonsupport-scripts/refs/heads/main/HealthCheck/MacOS/output.sh)
-source "/home/t/pythonsupport-scripts/HealthCheck/MacOS/output.sh"
-#source <(curl -s https://raw.githubusercontent.com/TheWolf534/pythonsupport-scripts/refs/heads/main/HealthCheck/MacOS/check_python.sh)
-source "/home/t/pythonsupport-scripts/HealthCheck/MacOS/check_python.sh"
-#source <(curl -s https://raw.githubusercontent.com/TheWolf534/pythonsupport-scripts/refs/heads/main/HealthCheck/MacOS/check_vsCode.sh)
-source "/home/t/pythonsupport-scripts/HealthCheck/MacOS/check_vsCode.sh"
-#source <(curl -s https://raw.githubusercontent.com/TheWolf534/pythonsupport-scripts/refs/heads/main/HealthCheck/MacOS/check_firstYearPackages.sh)
-source "/home/t/pythonsupport-scripts/HealthCheck/MacOS/check_firstYearPackages.sh"
+# checks for environmental variables for remote and branch 
+if [ -z "$REMOTE_PS" ]; then
+  REMOTE_PS="TheWolf534/pythonsupport-scripts"
+fi
+if [ -z "$BRANCH_PS" ]; then
+  BRANCH_PS="main"
+fi
 
-source "/home/t/pythonsupport-scripts/HealthCheck/MacOS/map.sh"
+url_ps="https://raw.githubusercontent.com/$REMOTE_PS/$BRANCH_PS/HealthCheck/MacOS/"
+
+source <(curl -s $url_ps/output.sh)
+source <(curl -s $url_ps/check_python.sh)
+source <(curl -s $url_ps/check_vsCode.sh)
+source <(curl -s $url_ps/check_firstYearPackages.sh)
+source <(curl -s $url_ps/map.sh)
 
 
 # Function to clean up resources and exit
