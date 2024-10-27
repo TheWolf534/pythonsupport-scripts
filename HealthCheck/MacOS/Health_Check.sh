@@ -26,7 +26,7 @@ cleanup() {
     fi
 
     tput cnorm
-    map_cleanup "healthCheckResults"
+    #map_cleanup "healthCheckResults"
     release_lock "healthCheckResults"
     
     exit 1
@@ -53,14 +53,20 @@ main() {
 
     
 
-    # Start non_verbose_output in background
+    
+    if [[ "$1" == "--verbose" || "$1" == "-v" ]]; then
+    :
+    else
     non_verbose_output &
+    fi
     output_pid=$!
 
     # Run checks sequentially
     check_python
     check_vsCode
     check_firstYearPackages
+
+    verbose_output
 
     # Wait for the checks to finish being output
     wait
@@ -69,9 +75,4 @@ main() {
 }
 
 # Main execution
-if [[ "$1" == "--verbose" || "$1" == "-v" ]]; then
-    ## NEED TO REIMPLEMENT THIS ##
-    verbose_output
-else
-    main
-fi
+main $1
