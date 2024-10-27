@@ -26,7 +26,7 @@ cleanup() {
     fi
 
     tput cnorm
-    #map_cleanup "healthCheckResults"
+    map_cleanup "healthCheckResults"
     release_lock "healthCheckResults"
     
     exit 1
