@@ -8,7 +8,7 @@ if [ -z "$BRANCH_PS" ]; then
   BRANCH_PS="main"
 fi
 
-url_ps="https://raw.githubusercontent.com/$REMOTE_PS/$BRANCH_PS/HealthCheck/MacOS/"
+url_ps="https://raw.githubusercontent.com/$REMOTE_PS/$BRANCH_PS/HealthCheck/MacOS"
 
 source <(curl -s $url_ps/output.sh)
 source <(curl -s $url_ps/check_python.sh)
