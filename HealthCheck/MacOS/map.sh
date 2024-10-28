@@ -148,6 +148,3 @@ map_cleanup() {
 map_cleanup_all() {
     rm -rf "${STORE_DIR}"/*
 }
-
-export -f encode_key get_store_path get_lock_path acquire_lock release_lock
-export -f map_set map_get map_delete map_keys map_cleanup map_cleanup_all

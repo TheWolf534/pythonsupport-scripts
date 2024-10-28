@@ -10,12 +10,23 @@ fi
 
 url_ps="https://raw.githubusercontent.com/$REMOTE_PS/$BRANCH_PS/HealthCheck/MacOS"
 
-source <(curl -s $url_ps/output.sh)
-source <(curl -s $url_ps/check_python.sh)
-source <(curl -s $url_ps/check_vsCode.sh)
-source <(curl -s $url_ps/check_firstYearPackages.sh)
-source <(curl -s $url_ps/map.sh)
+checkPython_tmp=$(mktemp)
+checkVsCode_tmp=$(mktemp)
+checkFirstYearPackages_tmp=$(mktemp)
+map_tmp=$(mktemp)
+output_tmp=$(mktemp)
 
+curl -s -o $checkPython_tmp $url_ps/check_python.sh
+curl -s -o $checkVsCode_tmp $url_ps/check_vsCode.sh
+curl -s -o $checkFirstYearPackages_tmp $url_ps/check_firstYearPackages.sh
+curl -s -o $map_tmp $url_ps/map.sh
+curl -s -o $output_tmp $url_ps/output.sh
+
+source $checkPython_tmp
+source $checkVsCode_tmp
+source $checkFirstYearPackages_tmp
+source $map_tmp
+source $output_tmp
 
 # Function to clean up resources and exit
 cleanup() {
@@ -50,15 +61,9 @@ main() {
     map_set "healthCheckResults" "scipy,name" "Scipy"
     map_set "healthCheckResults" "statsmodels,name" "Statsmodels"
     map_set "healthCheckResults" "uncertainties,name" "Uncertainties"
-
     
-
     
-    if [[ "$1" == "--verbose" || "$1" == "-v" ]]; then
-    :
-    else
     non_verbose_output &
-    fi
     output_pid=$!
 
     # Run checks sequentially
@@ -66,7 +71,9 @@ main() {
     check_vsCode
     check_firstYearPackages
 
+    if [[ "$1" == "--verbose" || "$1" == "-v" ]]; then
     verbose_output
+    fi
 
     # Wait for the checks to finish being output
     wait
