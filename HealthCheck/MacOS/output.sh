@@ -135,8 +135,6 @@ print_path_status() {
         echo -e "\x1B[1;32mYES\x1B[0m"
     elif [ "$status" = "false" ]; then
         echo -e "\x1B[1;31mNO\x1B[0m"
-    else
-        :
     fi
 }
 
