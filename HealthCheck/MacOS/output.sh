@@ -162,7 +162,7 @@ verbose_output() {
     # Extensions Section
     print_section_header "VSCode Extensions"
     
-    for ext in "${extension_requirements[@]}"; do
+    for ext in "${VSCode_extension_requirements[@]}"; do
         echo -e "\n\x1B[1;33m$(map_get "healthCheckResults" "${ext},name"):\x1B[0m"
         print_info "Installation Status" "$(print_install_status "$(map_get "healthCheckResults" "${ext},installed")")"
         print_info "Version" "$(map_get "healthCheckResults" "${ext},version")"
@@ -171,7 +171,7 @@ verbose_output() {
     # Python Packages Section
     print_section_header "Python Packages"
     
-    for package in "${package_requirements[@]}"; do
+    for package in "${python_package_requirements[@]}"; do
         echo -e "\n\x1B[1;33m$(map_get "healthCheckResults" "${package},name"):\x1B[0m"
         print_info "Installation Status" "$(print_install_status "$(map_get "healthCheckResults" "${package},installed")")"
         print_info "Source" "$(map_get "healthCheckResults" "${package},source")"
