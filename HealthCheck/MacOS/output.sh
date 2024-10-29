@@ -45,7 +45,7 @@ update_status() {
     local status_string=$3  # Removed *asterisks*
     tput cup $((line+8)) $column
     tput el
-    echo "$status_string"
+    echo $status_string
 }
 
 # Install status function - fixed
