@@ -15,20 +15,20 @@ check_brew() {
     local brew
     for brew in "${brew_paths[@]}" ; do
         if [ -x $brew ]; then
-            map_set "healthcheck" "brew,installed" "true"
+            map_set "healthCheckResults" "brew,installed" "true"
             brew_path=$(dirname $brew)
         else
-            map_set "healthcheck" "brew,installed" "false"
+            map_set "healthCheckResults" "brew,installed" "false"
             return 0
         fi
     done
 
-    map_set "healthcheck" "brew,version" "$(${brew_path} --version)"
-    map_set "healthcheck" "brew,path" "$brew_path"
+    map_set "healthCheckResults" "brew,version" "$(${brew_path} --version)"
+    map_set "healthCheckResults" "brew,path" "$brew_path"
 
     if grep -q $brew_path $PATH; then
-        map_set "healthcheck" "brew,in-path" "true"
+        map_set "healthCheckResults" "brew,in-path" "true"
     else
-        map_set "healthcheck" "brew,in-path" "false"
+        map_set "healthCheckResults" "brew,in-path" "false"
     fi
 }
