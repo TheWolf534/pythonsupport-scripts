@@ -53,6 +53,7 @@ main() {
     map_set "healthCheckResults" "python3,name" "Python"
     map_set "healthCheckResults" "conda,name" "Conda"
     map_set "healthCheckResults" "code,name" "Visual Studio Code"
+    map_set "healthCheckResults" "brew,name" "Homebrew"
     map_set "healthCheckResults" "ms-python.python,name" "Python Extension"
     map_set "healthCheckResults" "ms-toolsai.jupyter,name" "Jupyter Extension"
     map_set "healthCheckResults" "numpy,name" "Numpy"
