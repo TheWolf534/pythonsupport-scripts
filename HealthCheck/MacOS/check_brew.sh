@@ -1,12 +1,15 @@
 #!/bin/bash
 
+set -x
+
 brew_paths=(
     "/opt/homebrew/bin/brew"
     "/usr/local/bin/brew"
 )
 
 check_brew() {
-    for brew in "${brew_path[@]}" ; do
+    local brew
+    for brew in "${brew_paths[@]}" ; do
         if [ -x $brew ]; then
             map_set "healthcheck" "brew,installed" "true"
             brew_path="$brew"
