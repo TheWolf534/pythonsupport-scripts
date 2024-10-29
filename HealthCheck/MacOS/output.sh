@@ -90,7 +90,7 @@ non_verbose_output() {
                 break
             fi
             # Sleep for a short period to avoid reading too frequently
-            sleep 0.5
+            sleep 0.1
         done
         
         status_string=$(install_status "$installed")
