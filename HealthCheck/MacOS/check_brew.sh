@@ -6,13 +6,13 @@ brew_paths=(
 )
 
 check_brew() {
-    for brew in "${brew_path[@]}"; do
-        if [ -x "$brew" ]; then
+    for brew in "${brew_path[@]}" ; do
+        if [ -x $brew ]; then
             map_set "healthcheck" "brew,installed" "true"
             brew_path="$brew"
         else
             map_set "healthcheck" "brew,installed" "false"
-            return
+            return 0
         fi
     done
 
