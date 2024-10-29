@@ -28,13 +28,13 @@ create_banner() {
     local right_padding=$(printf "%*s" $padding)
     local top_bottom_side=$(printf "%*s" $((padding * 2 + 2 + text_length)) | tr ' ' '*')
     local inside_box_width=$(printf "%*s" $((padding * 2 + text_length)))
-    echo -e "\e[1;34m"
+    echo -e "\x1B[1;34m"
     echo "$top_bottom_side"
     echo "*$inside_box_width*"
-    echo -e "*\e[1;32m$left_padding$text$right_padding\e[1;34m*"
+    echo -e "*\x1B[1;32m$left_padding$text$right_padding\x1B[1;34m*"
     echo "*$inside_box_width*"
     echo "$top_bottom_side"
-    echo -e "\e[0m"
+    echo -e "\x1B[0m"
 }
 
 # Update status function - unchanged
@@ -53,15 +53,15 @@ install_status() {
     local install_status=$1  # Removed *asterisks* and added local
     if [ "$install_status" = "true" ]; then
         status_string="INSTALLED"
-        color_code="\e[1;42m"
+        color_code="\x1B[1;42m"
     elif [ "$install_status" = "false" ]; then
         status_string="NOT INSTALLED"
-        color_code="\e[1;41m"
+        color_code="\x1B[1;41m"
     else
         status_string="STILL CHECKING"
-        color_code="\e[1;43m"
+        color_code="\x1B[1;43m"
     fi
-    reset_color="\e[0m"
+    reset_color="\x1B[0m"
     echo -e "$color_code$status_string$reset_color"
 }
 
@@ -106,7 +106,7 @@ print_section_header() {
     local title=$1
     local width=80  # Wider than non-verbose for more detail
     echo
-    echo -e "\e[1;34m═══ $title ══$(printf '═%.0s' $(seq $((width - ${#title} - 8))))\e[0m"
+    echo -e "\x1B[1;34m═══ $title ══$(printf '═%.0s' $(seq $((width - ${#title} - 8))))\x1B[0m"
 }
 
 # Function to print a labeled value with optional color
@@ -114,16 +114,16 @@ print_info() {
     local label=$1
     local value=$2
     local pad_length=25  # Adjust this for alignment
-    printf "\e[1;36m%-${pad_length}s\e[0m %s\n" "$label:" "$value"
+    printf "\x1B[1;36m%-${pad_length}s\x1B[0m %s\n" "$label:" "$value"
 }
 
 # Function to print installation status with color
 print_install_status() {
     local status=$1
     if [ "$status" = "true" ]; then
-        echo -e "\e[1;32mINSTALLED\e[0m"
+        echo -e "\x1B[1;32mINSTALLED\x1B[0m"
     else
-        echo -e "\e[1;31mNOT INSTALLED\e[0m"
+        echo -e "\x1B[1;31mNOT INSTALLED\x1B[0m"
     fi
 }
 
@@ -135,14 +135,14 @@ verbose_output() {
     print_section_header "System Programs"
     
     # Python Information
-    echo -e "\n\e[1;33mPython Information:\e[0m"
+    echo -e "\n\x1B[1;33mPython Information:\x1B[0m"
     print_info "Name" "$(map_get "healthCheckResults" "python3,name")"
     print_info "Installation Status" "$(print_install_status "$(map_get "healthCheckResults" "python3,installed")")"
     print_info "Paths" "$(map_get "healthCheckResults" "python3,paths")"
     print_info "Versions" "$(map_get "healthCheckResults" "python3,versions")"
     
     # Conda Information
-    echo -e "\n\e[1;33mConda Information:\e[0m"
+    echo -e "\n\x1B[1;33mConda Information:\x1B[0m"
     print_info "Name" "$(map_get "healthCheckResults" "conda,name")"
     print_info "Installation Status" "$(print_install_status "$(map_get "healthCheckResults" "conda,installed")")"
     print_info "Paths" "$(map_get "healthCheckResults" "conda,paths")"
@@ -151,7 +151,7 @@ verbose_output() {
     print_info "Python Version" "$(map_get "healthCheckResults" "conda,python_version")"
     
     # VSCode Information
-    echo -e "\n\e[1;33mVSCode Information:\e[0m"
+    echo -e "\n\x1B[1;33mVSCode Information:\x1B[0m"
     print_info "Name" "$(map_get "healthCheckResults" "code,name")"
     print_info "Installation Status" "$(print_install_status "$(map_get "healthCheckResults" "code,installed")")"
     print_info "Path" "$(map_get "healthCheckResults" "code,path")"
@@ -161,7 +161,7 @@ verbose_output() {
     print_section_header "VSCode Extensions"
     
     for ext in "${extension_requirements[@]}"; do
-        echo -e "\n\e[1;33m$(map_get "healthCheckResults" "${ext},name"):\e[0m"
+        echo -e "\n\x1B[1;33m$(map_get "healthCheckResults" "${ext},name"):\x1B[0m"
         print_info "Installation Status" "$(print_install_status "$(map_get "healthCheckResults" "${ext},installed")")"
         print_info "Version" "$(map_get "healthCheckResults" "${ext},version")"
     done
@@ -170,12 +170,12 @@ verbose_output() {
     print_section_header "Python Packages"
     
     for package in "${package_requirements[@]}"; do
-        echo -e "\n\e[1;33m$(map_get "healthCheckResults" "${package},name"):\e[0m"
+        echo -e "\n\x1B[1;33m$(map_get "healthCheckResults" "${package},name"):\x1B[0m"
         print_info "Installation Status" "$(print_install_status "$(map_get "healthCheckResults" "${package},installed")")"
         print_info "Source" "$(map_get "healthCheckResults" "${package},source")"
         print_info "Path" "$(map_get "healthCheckResults" "${package},path")"
         print_info "Version" "$(map_get "healthCheckResults" "${package},version")"
     done
     
-    echo -e "\n\e[1;34m$(printf '═%.0s' $(seq 80))\e[0m"
+    echo -e "\n\x1B[1;34m$(printf '═%.0s' $(seq 80))\x1B[0m"
 }
