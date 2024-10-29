@@ -5,7 +5,7 @@ if [ -z "$REMOTE_PS" ]; then
   REMOTE_PS="TheWolf534/pythonsupport-scripts"
 fi
 if [ -z "$BRANCH_PS" ]; then
-  BRANCH_PS="main"
+  BRANCH_PS="brew_check"
 fi
 
 url_ps="https://raw.githubusercontent.com/$REMOTE_PS/$BRANCH_PS/HealthCheck/MacOS"
