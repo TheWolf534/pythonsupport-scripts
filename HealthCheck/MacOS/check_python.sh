@@ -9,17 +9,14 @@ python_common_dirs=(
     "$HOME/.local/bin"
 )
 conda_common_dirs=(
-    "$HOME/miniconda3"
-    "$HOME/anaconda3"
-    "/opt/miniconda3"
-    "/opt/anaconda3"
-    "/usr/local/anaconda3"
-    "/usr/local/miniconda3"
+    "$HOME/miniconda3/bin/conda"
+    "$HOME/anaconda3/bin/conda"
+    "/opt/miniconda3/bin/conda"
+    "/opt/anaconda3/bin/conda"
+    "/usr/local/anaconda3/bin/conda"
+    "/usr/local/miniconda3/bin/conda"
+    "/usr/local/Caskroom/miniconda/base/condabin/conda"
 )
-if [ -n "$brew_path" ]; then
-    conda_common_dirs+=("$(brew --prefix conda 2>/dev/null)")
-    conda_common_dirs+=("$(brew --prefix miniconda 2>/dev/null)")
-fi
 
 check_command_exists() {
     local cmd=$1
@@ -70,7 +67,7 @@ check_python() {
         if [ -d "$dir" ] && [ -x "$dir/bin/conda" ]; then
             conda_found=true
             conda_paths+=("$dir")
-            version=$("$dir/bin/conda" --version 2>/dev/null | cut -d' ' -f2)
+            version=$($dir --version 2>/dev/null | cut -d' ' -f2)
             if [ -n "$version" ]; then
                 conda_versions+=("$version")
             fi

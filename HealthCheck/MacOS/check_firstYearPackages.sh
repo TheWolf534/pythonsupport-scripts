@@ -3,7 +3,7 @@
 # Source the key-value store library
 #source /path/to/kv_store.sh  # Make sure to update this path
 
-#eval "$(conda shell.bash hook 2>/dev/null)"
+eval "$(conda shell.bash hook 2>/dev/null)"
 conda_eviroment="base"  
 conda activate -n $conda_eviroment 2>/dev/null
 conda_python_path=$(which python3 2>/dev/null)
