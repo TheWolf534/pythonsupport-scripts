@@ -43,7 +43,7 @@ cleanup() {
     map_cleanup "healthCheckResults"
     release_lock "healthCheckResults"
     
-    exit 1
+    exit 0
 }
 
 # Set up the trap for SIGINT (Ctrl+C)
