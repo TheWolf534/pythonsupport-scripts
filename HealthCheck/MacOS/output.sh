@@ -128,6 +128,18 @@ print_install_status() {
     fi
 }
 
+# Func
+print_path_status() {
+    local status=$1
+    if [ "$status" = "true" ]; then
+        echo -e "\x1B[1;32mYES\x1B[0m"
+    elif [ "$status" = "false" ]; then
+        echo -e "\x1B[1;31mNO\x1B[0m"
+    else
+        :
+    fi
+}
+
 verbose_output() {
     clear
     create_banner
@@ -164,7 +176,7 @@ verbose_output() {
     print_info "Installation Status" "$(print_install_status "$(map_get "healthCheckResults" "brew,installed")")"
     print_info "Path" "$(map_get "healthCheckResults" "brew,path")"
     print_info "Version" "$(map_get "healthCheckResults" "brew,version")"
-    print_info "In Path" "$(print_install_status "$(map_get "healthCheckResults" "brew,in-path")")"
+    print_info "In Path" "$(print_path_status "$(map_get "healthCheckResults" "brew,in-path")")"
 
     # Extensions Section
     print_section_header "VSCode Extensions"
