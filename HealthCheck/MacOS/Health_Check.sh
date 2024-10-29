@@ -52,6 +52,25 @@ trap cleanup SIGINT
 main() {
     create_banner
 
+    program_requirements=(
+    "python3"
+    "conda"
+    "code"
+    "brew"
+    )
+    VSCode_extension_requirements=(
+    "ms-python.python"
+    "ms-toolsai.jupyter"
+    )
+    python_package_requirements=(
+    "numpy"
+    "dtumathtools"
+    "pandas"
+    "scipy"
+    "statsmodels"
+    "uncertainties"
+    )
+
     # Initialize the health check results map
     map_set "healthCheckResults" "python3,name" "Python"
     map_set "healthCheckResults" "conda,name" "Conda"

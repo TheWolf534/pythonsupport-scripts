@@ -1,22 +1,5 @@
 # Requirements arrays remain unchanged
-program_requirements=(
-    "python3"
-    "conda"
-    "code"
-    "brew"
-)
-extension_requirements=(
-    "ms-python.python"
-    "ms-toolsai.jupyter"
-)
-package_requirements=(
-    "numpy"
-    "dtumathtools"
-    "pandas"
-    "scipy"
-    "statsmodels"
-    "uncertainties"
-)
+
 width=60
 
 # Create a colorful banner - unchanged
@@ -69,7 +52,7 @@ install_status() {
 # Non-verbose output function remains the same
 non_verbose_output() {
     tput civis
-    requirements=( "${program_requirements[@]}" "${extension_requirements[@]}" "${package_requirements[@]}")
+    requirements=( "${program_requirements[@]}" "${VSCode_extension_requirements[@]}" "${python_package_requirements[@]}")
     
     # First loop: Display initial status for all requirements
     for i in ${!requirements[@]}; do
