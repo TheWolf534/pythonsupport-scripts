@@ -1,6 +1,5 @@
 #!/bin/bash
 
-set -x
 
 brew_paths=(
     "/opt/homebrew/bin/brew"
