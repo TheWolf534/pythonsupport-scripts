@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Configuration
-export STORE_DIR="${TMPDIR:-/tmp}/healthCheck" # Directory to store the results
+export STORE_DIR=$(mktemp -d ${TMPDIR:-/tmp}/healthCheck-maps.XXXXXXXX)
 
 # Ensure store directory exists with proper permissions
 mkdir -p "$STORE_DIR"
