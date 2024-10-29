@@ -12,11 +12,12 @@ if [ $? -eq 0 ]; then
 fi
 
 check_brew() {
-    local brew
-    for brew in "${brew_paths[@]}" ; do
-        if [ -x $brew ]; then
+    for brew_path in "${brew_paths[@]}" ; do
+        echo
+        if [ -x $brew_path ]; then
             map_set "healthCheckResults" "brew,installed" "true"
             brew_path=$(dirname $brew)
+            break
         else
             map_set "healthCheckResults" "brew,installed" "false"
             return 0
