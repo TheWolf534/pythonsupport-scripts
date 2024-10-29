@@ -1,12 +1,15 @@
 #!/bin/bash
 
-# Source the key-value store library
-
+# Initialize conda
+eval "$(conda shell.bash hook)"
+# Set the conda environment
 conda_eviroment="base"  
 conda activate -n $conda_eviroment 2>/dev/null
 conda_python_path=$(which python 2>/dev/null)
 conda deactivate 2>/dev/null
+
 python_path=$(which python3 2>/dev/null)
+
 python_packages=("numpy" "dtumathtools" "pandas" "scipy" "statsmodels" "uncertainties")
 
 check_package_installed() {
