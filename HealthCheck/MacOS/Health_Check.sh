@@ -70,6 +70,8 @@ main() {
     "statsmodels"
     "uncertainties"
     )
+    
+    export program_requirements VSCode_extension_requirements python_package_requirements
 
     # Initialize the health check results map
     map_set "healthCheckResults" "python3,name" "Python"
