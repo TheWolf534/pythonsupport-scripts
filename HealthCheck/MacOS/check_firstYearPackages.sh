@@ -22,7 +22,7 @@ check_package_source() {
     local package=$1
     conda_list_output=$(conda list -n $conda_eviroment 2>/dev/null | grep $package | head -n 1)
     conda_list_package_source=$(echo $conda_list_output | cut -d " " -f 4)
-    pip_list_output=$($python_path -m pip list | grep $package | head -n 1)
+    pip_list_output=$($python_path -m pip list 2>/dev/null | grep $package | head -n 1)
    
     package_source=()
     if [ -n "$conda_list_package_source" ]; then
