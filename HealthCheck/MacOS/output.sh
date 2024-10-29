@@ -89,9 +89,8 @@ non_verbose_output() {
             if [[ ! -z "$installed" ]]; then
                 break
             fi
-            echo $installed
             # Sleep for a short period to avoid reading too frequently
-            sleep 2
+            sleep 0.5
         done
         
         status_string=$(install_status "$installed")
