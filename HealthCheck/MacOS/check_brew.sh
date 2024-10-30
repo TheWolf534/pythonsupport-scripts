@@ -14,9 +14,8 @@ fi
 check_brew() {
     for brew_path in "${brew_paths[@]}" ; do
         if [ -x $brew_path ]; then
-            echo $brew_path 
             map_set "healthCheckResults" "brew,installed" "true"
-            brew_path=$(dirname $brew)
+            brew_path=$(dirname $brew_path)
             break
         else
             map_set "healthCheckResults" "brew,installed" "false"
