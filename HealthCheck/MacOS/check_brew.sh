@@ -27,10 +27,10 @@ check_brew() {
         return 0
     fi
     
-    map_set "healthCheckResults" "brew,version" "$(${brew_path} --version)"
+    map_set "healthCheckResults" "brew,version" "$(${brew_path}/brew --version 2>/dev/null)"
     map_set "healthCheckResults" "brew,path" "$brew_path"
 
-    if grep -q $brew_path $PATH; then
+    if echo $PATH | grep -q $brew_path ; then
         map_set "healthCheckResults" "brew,in-path" "true"
     else
         map_set "healthCheckResults" "brew,in-path" "false"
