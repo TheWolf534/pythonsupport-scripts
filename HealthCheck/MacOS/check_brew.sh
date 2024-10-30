@@ -13,17 +13,21 @@ fi
 
 check_brew() {
     for brew_path in "${brew_paths[@]}" ; do
-        echo
         if [ -x $brew_path ]; then
+            echo $brew_path 
             map_set "healthCheckResults" "brew,installed" "true"
             brew_path=$(dirname $brew)
             break
         else
             map_set "healthCheckResults" "brew,installed" "false"
-            return 0
+            brew_path=""
         fi
     done
 
+    if  [ -z "$brew_path" ]; then
+        return 0
+    fi
+    
     map_set "healthCheckResults" "brew,version" "$(${brew_path} --version)"
     map_set "healthCheckResults" "brew,path" "$brew_path"
 
